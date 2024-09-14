@@ -1,7 +1,7 @@
 # aws-1password
 AWS and 1 password integration; allows use of 1password and AWS sdk/cli. Allows
 use of MFA seemlessly without having the headache of typing code from your OTP 
-application
+application.
 
 
 # Create a onepassword entry for the credentials It contains the following fields
