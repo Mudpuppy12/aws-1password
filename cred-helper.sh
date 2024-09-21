@@ -49,7 +49,7 @@ getcreds() {
   TOKEN_PIN=$(echo $ONE_PASSWORD | jq -r .OtpToken)
 
   # Yubico device for PIN, need ykmann installed
-
+  
   #TOKEN_PIN=$(ykman oath accounts code yubikey 2>&1 | grep -o "\w*$" )
 
   AWS_CREDS=`aws sts get-session-token --serial-number $SERIAL_NUMBER --token-code $TOKEN_PIN | \
@@ -57,6 +57,7 @@ getcreds() {
 
 # Return the Authentication credits for AWS
   echo $AWS_CREDS > $HOME/.aws/$cache_file
+  echo $AWS_CREDS
 }
 
 # Check to see if we have a cred cache
@@ -81,5 +82,4 @@ then
 else
   # No cached creds, lets fetch them.
   getcreds
-  echo "$(<$HOME/.aws/$cache_file)"
 fi
