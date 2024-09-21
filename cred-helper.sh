@@ -12,6 +12,15 @@ umask 077
 #
 # [default]
 # credential_process = /Users/dennis/.aws/cred-helper.sh "Personal" "AWS Access Key"
+#
+#
+# For Yubico Key
+#
+
+# ykman oath accounts add -t yubikey { YOUR SECRET KEY }
+# ykman oath accounts code yubikey
+#
+# Uncomment/Comment out the correct token pin below
 
 vault="$1"
 secret_id="$2"
@@ -35,7 +44,13 @@ getcreds() {
 # We'll need these, but not required to be exported.
 
   SERIAL_NUMBER=$(echo $ONE_PASSWORD | jq -r .SerialNumber)
+ 
+  # Comment out for Yubico
   TOKEN_PIN=$(echo $ONE_PASSWORD | jq -r .OtpToken)
+
+  # Yubico device for PIN, need ykmann installed
+  
+  #TOKEN_PIN=$(ykman oath accounts code yubikey 2>&1 | grep -o "\w*$" )
 
   AWS_CREDS=`aws sts get-session-token --serial-number $SERIAL_NUMBER --token-code $TOKEN_PIN | \
       jq '. | add | {Version:1, AccessKeyId:.AccessKeyId,SecretAccessKey:.SecretAccessKey,SessionToken:.SessionToken,Expiration:.Expiration}'`
@@ -67,4 +82,5 @@ then
 else
   # No cached creds, lets fetch them.
   getcreds
+  echo "$(<$HOME/.aws/$cache_file)"
 fi
