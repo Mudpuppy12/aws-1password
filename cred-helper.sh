@@ -46,6 +46,11 @@ getcreds() {
 }
 
 # Check to see if we have a cred cache
+
+if [ -n "$GEODESIC_SHELL" ]; then
+      HOME="/localhost"
+fi
+  
 if [ -f $HOME/.aws/$cache_file ]
 then
    #If we do have a cache, check token expiration
