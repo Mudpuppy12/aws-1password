@@ -14,6 +14,9 @@ application.
 # Update the config file
 Set the default region, etc. Your profiles, etc.
 
+# Added Yubico support.
+Edit the sh script for use with Yubico devices. The device will blink, touch it.
+
 # Update credentials file to point to your vault and password entry.
  Example
    * credential_process = /Users/USER/.aws/cred-helper.sh "Personal" "AWS Access Key"
